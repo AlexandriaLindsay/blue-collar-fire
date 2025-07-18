@@ -13,6 +13,7 @@
     --color-brand-primary: #303841;
     --color-brand-secondary: #FF5722;
     --color-brand-grey: #4D4D4D;
+    --color-brand-silver: #F5F5FA;
 }
 
 
@@ -26,15 +27,19 @@
     }
 
     h2 {
-        @apply text-4xl text-brand-grey font-bold tracking-tight mb-2;
+        @apply text-4xl text-brand-grey font-bold tracking-tighter mb-2;
     }
 
     h3 {
-        @apply text-xl text-brand-grey font-bold tracking-tight mb-2;
+        @apply text-xl text-brand-grey font-bold tracking-tight mb-2 leading-6;
     }
 
     p,a {
         @apply text-[1.1rem];
+    }
+
+    p {
+        @apply mb-10;
     }
 
     nav li a {
@@ -50,6 +55,10 @@
         pointer-events: none;
     }
 
+    nav li:last-of-type {
+        @apply !p-2;
+    }
+
     nav li:not(:last-child) a:hover::before {
         transform: scaleX(1) translateY(1.3rem);
     }
@@ -63,10 +72,11 @@
         bg-brand-secondary 
         rounded-sm 
         transition 
+        text-white
         duration-300 
         hover:bg-transparent 
         border border-brand-secondary
-        py-2
-        px-3;
+        py-3.5
+        px-4;
     }
 }

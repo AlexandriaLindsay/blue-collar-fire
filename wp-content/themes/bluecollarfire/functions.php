@@ -249,7 +249,7 @@ add_action('wp_before_admin_bar_render', 'admin_custom_logo');
 
 /* Site Favicon */
 function custom_site_favicon() {
-    $favicon_url = get_stylesheet_directory_uri() . '/img/blue-collar-fire-badge.png'; // Adjust the path if needed
+    $favicon_url = get_stylesheet_directory_uri() . '/img/favicon.png'; // Adjust the path if needed
 
     echo '<link rel="icon" href="' . esc_url($favicon_url) . '" type="image/x-icon" />';
     echo '<link rel="shortcut icon" href="' . esc_url($favicon_url) . '" type="image/x-icon" />';
@@ -317,7 +317,7 @@ add_action('init', 'disable_gutenberg_for_posts');
 function image_cropping_sizes() {
 	add_image_size('hero', 391, 407, true);
 	add_image_size('icon', 65, 56, true);
-	add_image_size('thumbnail-post', 268, 286, true);
+	add_image_size('thumbnail-post', 368, 286, true);
 	add_image_size('post', 875, 423, true);
 	add_image_size('home-about', 561, 396, true);
 }
