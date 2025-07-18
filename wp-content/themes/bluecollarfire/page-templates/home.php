@@ -3,25 +3,64 @@
 *    Template Name: Home
 */
 get_header();
+
+// acf groups
+$hero = get_field('hero');
+$audiences = get_field('section_1');
+
+
+// columns
+$column1 = $audiences['column_1'];
+$column2 = $audiences['column_2'];
+$column3 = $audiences['column_3'];
 ?>
 
  <!-- Hero Section -->
   <section class="bg-gray-100 py-12">
-    <div class="max-w-7xl mx-auto text-center px-6">
-      <h2 class="text-4xl font-bold text-gray-800 mb-4">Financial <span class="text-blue-600">insights</span> and <span class="text-blue-400">lessons</span> on the path to FIRE</h2>
-      <p class="text-gray-600 mb-6">Actionable advice, tools, and tips to help you learn, explore, thrive, and grow.</p>
-      <button class="bg-blue-600 text-white px-6 py-3 rounded shadow hover:bg-blue-700">Explore the Blog</button>
+    <div class="flex gap-32 max-w-7xl mx-auto items-center">
+      <div class="flex-1 px-6">
+        <?php 
+          if($hero) :
+            echo $hero['hero_text'];
+          endif; 
+        ?>
+      </div>
+
+      <div class="flex justify-center items-center">
+        <?php if($hero) : ?>
+          <img src="<?=$hero['hero_image']['sizes']['hero'];?>" alt="<?=$hero['hero_image']['alt'];?>" />
+        <?php endif; ?>
+      </div>
     </div>
   </section>
 
-  <!-- About Preview -->
+  <!-- Audiences -->
   <section class="py-12">
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8 px-6">
-      <img src="your-about-image.jpg" class="w-full md:w-1/2 rounded shadow" alt="About Image">
-      <div>
-        <h3 class="text-2xl font-bold mb-2">About</h3>
-        <p class="text-gray-600 mb-4">Blue Collar FIRE was built for the everyday worker sharing extraordinary goals...</p>
-        <a href="#" class="text-blue-600 font-semibold underline">Read More</a>
+    <div class="max-w-7xl mx-auto px-12 text-center mt-12">
+      <?=$audiences['intro_text'];?>
+      <div class="flex items-start gap-24 mt-16">
+
+        <?php if($column1) : ?>
+          <div class="flex-1 flex flex-col items-center">
+            <img src="<?=$column1['icon']['sizes']['icon']?>" alt="<?=$column1['icon']['alt'];?>" />
+            <?=$column1['description'];?>
+          </div>
+        <?php endif; ?>
+
+        <?php if($column2) : ?>
+          <div class="flex-1 flex flex-col items-center"">
+            <img src="<?=$column2['icon']['sizes']['icon']?>" alt="<?=$column2['icon']['alt'];?>" />
+            <?=$column2['description'];?>
+          </div>
+        <?php endif; ?>
+
+        <?php if($column3) : ?>
+          <div class="flex-1 flex flex-col items-center"">
+            <img src="<?=$column3['icon']['sizes']['icon']?>" alt="<?=$column3['icon']['alt'];?>" />
+            <?=$column3['description'];?>
+          </div>
+        <?php endif; ?>
+        
       </div>
     </div>
   </section>
@@ -53,23 +92,14 @@ get_header();
     </div>
   </section>
 
-  <!-- Audiences -->
+  <!-- About Preview -->
   <section class="py-12">
-    <div class="max-w-7xl mx-auto px-6 text-center">
-      <h3 class="text-xl font-bold mb-6">Helping working-class families build wealth</h3>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div>
-          <h4 class="font-bold text-lg">9-to-5 Workers</h4>
-          <p class="text-sm text-gray-600">Work hard. Build wealth. Retire with dignity.</p>
-        </div>
-        <div>
-          <h4 class="font-bold text-lg">Families on a Budget</h4>
-          <p class="text-sm text-gray-600">Stretch every dollar while investing in your future.</p>
-        </div>
-        <div>
-          <h4 class="font-bold text-lg">Dreamers Seeking FIRE</h4>
-          <p class="text-sm text-gray-600">Unlock the path to financial independence early.</p>
-        </div>
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8 px-6">
+      <img src="your-about-image.jpg" class="w-full md:w-1/2 rounded shadow" alt="About Image">
+      <div>
+        <h3 class="text-2xl font-bold mb-2">About</h3>
+        <p class="text-gray-600 mb-4">Blue Collar FIRE was built for the everyday worker sharing extraordinary goals...</p>
+        <a href="#" class="text-blue-600 font-semibold underline">Read More</a>
       </div>
     </div>
   </section>

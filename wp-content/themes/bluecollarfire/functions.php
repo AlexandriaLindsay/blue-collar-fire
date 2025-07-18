@@ -138,9 +138,9 @@ add_action( 'widgets_init', 'bluecollarfire_widgets_init' );
  * Enqueue scripts and styles.
  */
 function bluecollarfire_scripts() {
-	wp_enqueue_style( 'bluecollarfire-style', get_template_directory_uri() . '/css/main.min.css', array(), _S_VERSION );
+	wp_enqueue_style( 'bluecollarfire-style', get_template_directory_uri() . '/dist/css/app.min.css', array(), _S_VERSION );
 
-	wp_enqueue_script( 'bluecollarfire-navigation', get_template_directory_uri() . '/js/main.min.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'bluecollarfire-js', get_template_directory_uri() . '/dist/js/app.min.js', array(), _S_VERSION, true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
@@ -192,15 +192,19 @@ function custom_login_logo_and_bg() {
     ?>
     <style type="text/css">
         body.login {
-            background-color: #263238;
+            background-color: #303841;
         }
 
 		.login #backtoblog a, .login #nav a {
 			color: #fff;
+		}  
+		
+		.login h1 {
+			height: 70px;
 		}
 
         .login h1 a {
-            background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/img/blue-collar-fire-logo-reverse.svg');
+            background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/img/blue-collar-fire-logo-web.png');
             background-size: contain;
             width: 100%;
             height: 100px;
@@ -216,7 +220,7 @@ add_action('login_head', 'custom_login_logo_and_bg');
 function admin_custom_logo() {?>
 	<style type="text/css">
 		#wpadminbar #wp-admin-bar-wp-logo > .ab-item .ab-icon:before {
-            background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/img/blue-collar-fire-badge.png');
+            background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/img/favicon.png');
 			background-position: 0 0;
 			color:rgba(0, 0, 0, 0);
 			background-size: contain;
@@ -276,6 +280,27 @@ function remove_editor() {
 add_action('init', 'remove_editor'); 
 
 /**
+ * Remove featured image
+ */
+function remove_featured_image_support() {
+    // Get all registered post types
+    foreach (get_post_types() as $post_type) {
+        remove_post_type_support($post_type, 'thumbnail');
+    }
+}
+add_action('init', 'remove_featured_image_support');
+
+
+/**
+ * Disable gutenburg for single post types
+ */
+function disable_gutenberg_for_posts() {
+    remove_post_type_support('post', 'editor');
+}
+add_action('init', 'disable_gutenberg_for_posts');
+
+
+/**
  * Regsiter ACF Options Page
  */
 // function acf_options_page_for_theme() {
@@ -292,15 +317,112 @@ add_action('init', 'remove_editor');
 function image_cropping_sizes() {
 	add_image_size('hero', 391, 407, true);
 	add_image_size('icon', 65, 56, true);
+	add_image_size('thumbnail-post', 268, 286, true);
+	add_image_size('post', 875, 423, true);
 	add_image_size('home-about', 561, 396, true);
 }
 add_action('after_setup_theme', 'image_cropping_sizes');
 
+/**
+ * Auto add ALT text on images
+ */
+function auto_set_image_alt_text($post_ID) {
+    $post = get_post($post_ID);
+
+    // Only apply to images
+    if ($post->post_type === 'attachment' && strpos($post->post_mime_type, 'image/') === 0) {
+        $alt_text = get_post_meta($post_ID, '_wp_attachment_image_alt', true);
+
+        if (empty($alt_text)) {
+            // Use the image title (or filename) as alt text
+            $image_title = $post->post_title;
+
+            // Clean up the title (e.g., replace dashes with spaces)
+            $image_title = ucwords(str_replace(['-', '_'], ' ', $image_title));
+
+            // Set alt text
+            update_post_meta($post_ID, '_wp_attachment_image_alt', $image_title);
+        }
+    }
+}
+add_action('add_attachment', 'auto_set_image_alt_text');
 
 
 /**
- * Remove featured image for posts
+ * Duplicate posts and pages
  */
-add_action('init', function () {
-    remove_post_type_support('post', 'thumbnail'); // Change 'post' to your CPT slug if needed
-});
+function duplicate_post_link($actions, $post) {
+    if (current_user_can('edit_posts')) {
+        $actions['duplicate'] = '<a href="' . wp_nonce_url(
+            admin_url('admin.php?action=duplicate_post_as_draft&post=' . $post->ID),
+            basename(__FILE__),
+            'duplicate_nonce'
+        ) . '" title="Duplicate this item" rel="permalink">Duplicate</a>';
+    }
+    return $actions;
+}
+add_filter('post_row_actions', 'duplicate_post_link', 10, 2);
+add_filter('page_row_actions', 'duplicate_post_link', 10, 2);
+
+function duplicate_post_as_draft() {
+    if (
+        !isset($_GET['post']) ||
+        !isset($_GET['duplicate_nonce']) ||
+        !wp_verify_nonce($_GET['duplicate_nonce'], basename(__FILE__))
+    ) {
+        wp_die('Unauthorized action.');
+    }
+
+    $post_id = absint($_GET['post']);
+    $post = get_post($post_id);
+
+    if (!$post) {
+        wp_die('Post not found.');
+    }
+
+    $new_post_args = [
+        'post_title'     => $post->post_title . ' (Copy)',
+        'post_content'   => $post->post_content,
+        'post_status'    => 'draft',
+        'post_type'      => $post->post_type,
+        'post_author'    => get_current_user_id(),
+        'post_excerpt'   => $post->post_excerpt,
+        'post_category'  => wp_get_post_categories($post_id),
+        'post_parent'    => $post->post_parent,
+        'menu_order'     => $post->menu_order,
+        'comment_status' => $post->comment_status,
+        'ping_status'    => $post->ping_status,
+    ];
+
+    $new_post_id = wp_insert_post($new_post_args);
+
+    // Copy custom fields
+    $meta = get_post_meta($post_id);
+    foreach ($meta as $key => $values) {
+        foreach ($values as $value) {
+            update_post_meta($new_post_id, $key, maybe_unserialize($value));
+        }
+    }
+
+    // Redirect to edit screen
+    wp_redirect(admin_url('post.php?action=edit&post=' . $new_post_id));
+    exit;
+}
+add_action('admin_action_duplicate_post_as_draft', 'duplicate_post_as_draft');
+
+
+/**
+ * Custom toolbar to add colors for WYSIWYG editor
+ */
+function custom_acf_wysiwyg_toolbars($toolbars) {
+    // Add a custom toolbar
+    $toolbars['Custom'] = array();
+    $toolbars['Custom'][1] = array(
+        'formatselect', 'bold', 'italic', 'underline', 'bullist', 'numlist',
+        'blockquote', 'alignleft', 'aligncenter', 'alignright', 'link', 'unlink',
+        'forecolor', 'backcolor', 'removeformat'
+    );
+
+    return $toolbars;
+}
+add_filter('acf/fields/wysiwyg/toolbars', 'custom_acf_wysiwyg_toolbars');
