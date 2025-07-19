@@ -45,7 +45,7 @@ $blog_posts = array_filter($blog_posts);
                 $label = esc_html($callToAction['title']);
                 $target = $callToAction['target'] ? esc_attr($callToAction['target']) : '_self';
 
-                echo '<a href="'. $url .'" target="'. $target .'" class="btn hover:bg-brand-primary border-0">'. $label .'</a>';
+                echo '<a href="'. $url .'" target="'. $target .'" class="btn">'. $label .'</a>';
               endif;
             endif; 
           ?>
@@ -62,7 +62,8 @@ $blog_posts = array_filter($blog_posts);
   </section>
 
   <!-- Audiences -->
-  <section class="bg-gray-100 py-12">
+  <section class="py-4 pb-16 relative">
+    <div class=" absolute -left-[28rem] bottom-[1rem] accent"><img src="<?=get_stylesheet_directory_uri();?>/img/dirt.png" alt="Dirt Splatter" /></div>
     <div class="max-w-7xl mx-auto px-12 text-center mt-12">
 
       <div class="max-w-xl mx-auto" data-aos="fade-up">
@@ -125,7 +126,7 @@ $blog_posts = array_filter($blog_posts);
               $label = esc_html($button['title']);
               $target = $button['target'] ? esc_attr($button['target']) : '_self';
 
-              echo '<a href="'. $url .'" target="'. $target .'" class="btn hover:bg-brand-primary border-0">'. $label .'</a>';
+              echo '<a href="'. $url .'" target="'. $target .'" class="btn">'. $label .'</a>';
             endif;
           ?>
         </div>

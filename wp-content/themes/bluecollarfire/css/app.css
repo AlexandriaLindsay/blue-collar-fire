@@ -60,7 +60,7 @@
         @apply mb-10;
     }
 
-    nav li a {
+    nav li:not(:last-child) a {
         @apply text-brand-primary relative font-bold;
     }
 
@@ -73,15 +73,20 @@
         pointer-events: none;
     }
 
-    nav li:last-of-type {
-        @apply !p-2  
-        bg-transparent 
-        hover:bg-brand-secondary
-        border border-brand-secondary;
+      nav li:last-of-type {
+        @apply !p-0;
     }
-
-    nav .btn a {
-        @apply text-brand-secondary hover:text-white font-medium;
+  
+    nav li:last-of-type a {
+        @apply 
+        transition
+        duration-300 
+        !text-brand-secondary 
+        hover:!text-white font-medium
+        hover:bg-brand-secondary
+        border border-brand-secondary
+        rounded-sm
+        px-4 py-2;
     }
 
     nav li:not(:last-child) a:hover::before {
@@ -101,6 +106,7 @@
         font-medium
         duration-300 
         hover:bg-transparent 
+        hover:!text-brand-secondary
         border border-brand-secondary
         py-3.5
         px-4;
