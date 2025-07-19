@@ -29,40 +29,43 @@ $blog_posts = array_filter($blog_posts);
 ?>
 
  <!-- Hero Section -->
-  <section class="bg-gray-100 py-12">
-    <div class="flex gap-32 max-w-7xl mx-auto items-center">
-      <div class="flex-1 px-6">
-        <?php 
-          if($hero) :
-            echo $hero['hero_text'];
+  <section class="hero py-12">
+    <div class="flex max-w-7xl mx-auto items-center">
+      <div class="opacity-0 flex-1 px-6 animate-flip-up">
+        <div class="absolute -top-[18.5rem] content">
+          <?php 
+            if($hero) :
+              echo $hero['hero_text'];
 
-            // hero link
-            $callToAction = $hero['call_to_action'];
+              // hero link
+              $callToAction = $hero['call_to_action'];
 
-            if($callToAction) :
-              $url = esc_url($callToAction['url']);
-              $label = esc_html($callToAction['title']);
-              $target = $callToAction['target'] ? esc_attr($callToAction['target']) : '_self';
+              if($callToAction) :
+                $url = esc_url($callToAction['url']);
+                $label = esc_html($callToAction['title']);
+                $target = $callToAction['target'] ? esc_attr($callToAction['target']) : '_self';
 
-              echo '<a href="'. $url .'" target="'. $target .'" class="btn hover:bg-brand-primary border-0">'. $label .'</a>';
-            endif;
-          endif; 
-        ?>
+                echo '<a href="'. $url .'" target="'. $target .'" class="btn hover:bg-brand-primary border-0">'. $label .'</a>';
+              endif;
+            endif; 
+          ?>
+        </div>
+      
       </div>
 
-      <div class="flex justify-center items-center">
+      <div class="opacity-0 flex flex-3 justify-center items-center animate-flip-up" style="animation-delay: .3s;">
         <?php if($hero) : ?>
-          <img src="<?=$hero['hero_image']['sizes']['hero'];?>" alt="<?=$hero['hero_image']['alt'];?>" />
+          <img src="<?=$hero['hero_image']['url'];?>" alt="<?=$hero['hero_image']['alt'];?>" />
         <?php endif; ?>
       </div>
     </div>
   </section>
 
   <!-- Audiences -->
-  <section class="py-12">
+  <section class="bg-gray-100 py-12">
     <div class="max-w-7xl mx-auto px-12 text-center mt-12">
 
-      <div class="max-w-xl mx-auto">
+      <div class="max-w-xl mx-auto" data-aos="fade-up">
         <?=$audienceSection['intro_text'];?>
       </div>
       
@@ -83,11 +86,11 @@ $blog_posts = array_filter($blog_posts);
   <!-- Blog Highlights -->
   <section class="bg-gray-50 py-12">
     <div class="max-w-7xl mx-auto px-6 text-center">
-      <div class="max-w-2xl mx-auto">
+      <div class="max-w-2xl mx-auto" data-aos="fade-up">
         <?=$blogSection['intro_description']?>
       </div>
       <?php if (!empty($blog_posts)): ?>
-        <div class="flex items-start gap-12 mt-16">
+        <div class="flex items-start gap-12 mt-16" data-aos="fade-in">
           <?php foreach ($blog_posts as $post): 
             $title = get_the_title($post->ID);
             $link = get_the_permalink($post->ID);
@@ -111,7 +114,7 @@ $blog_posts = array_filter($blog_posts);
     <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8 px-6">
 
       <?php if($aboutSection) : $aboutImg = $aboutSection['image'];?>
-        <div>
+        <div data-aos="fade-up">
           <?=$aboutSection['description'];?>
           <?php
               // about link
@@ -126,7 +129,7 @@ $blog_posts = array_filter($blog_posts);
             endif;
           ?>
         </div>
-        <img src="<?=$aboutImg['sizes']['home-about'];?>" class="w-full md:w-1/2 rounded shadow" alt="<?=$aboutImg['alt']?>">
+        <img data-aos="fade-in" src="<?=$aboutImg['sizes']['home-about'];?>" class="w-full md:w-1/2 rounded shadow" alt="<?=$aboutImg['alt']?>">
       <?php endif; ?>
     </div>
   </section>

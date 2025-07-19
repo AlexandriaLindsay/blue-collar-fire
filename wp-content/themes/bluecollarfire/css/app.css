@@ -17,13 +17,31 @@
 }
 
 
+/******************************************
+* ANIMATIONS
+******************************************/
+@keyframes flipUp {
+  0% {
+    opacity: 0;
+    transform: rotateX(90deg) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateX(0deg) translateY(0);
+  }
+}
+
+.animate-flip-up {
+  animation: flipUp 0.6s ease-out forwards;
+}
+
 /*******************************************
 * BASE STYLES
 *******************************************/
 @layer base {
 
     h1 {
-        @apply text-6xl font-bold text-brand-primary tracking-tighter mb-4;
+        @apply text-[5rem] font-bold text-brand-primary tracking-tighter leading-[4.8rem] mb-11;
     }
 
     h2 {
@@ -43,7 +61,7 @@
     }
 
     nav li a {
-        @apply text-white relative;
+        @apply text-brand-primary relative font-bold;
     }
 
     nav li:not(:last-child) > a::before {
@@ -56,7 +74,14 @@
     }
 
     nav li:last-of-type {
-        @apply !p-2;
+        @apply !p-2  
+        bg-transparent 
+        hover:bg-brand-secondary
+        border border-brand-secondary;
+    }
+
+    nav .btn a {
+        @apply text-brand-secondary hover:text-white font-medium;
     }
 
     nav li:not(:last-child) a:hover::before {
@@ -72,11 +97,25 @@
         bg-brand-secondary 
         rounded-sm 
         transition 
-        text-white
+        !text-white
+        font-medium
         duration-300 
         hover:bg-transparent 
         border border-brand-secondary
         py-3.5
         px-4;
     }
+}
+
+
+.hero img {
+    @apply ml-48 -mt-20;
+}
+
+.hero .content {
+    @apply w-[39rem];
+}
+
+.hero .content p {
+    @apply pr-20;
 }
