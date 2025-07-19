@@ -62,7 +62,7 @@ $blog_posts = array_filter($blog_posts);
   </section>
 
   <!-- Audiences -->
-  <section class="py-4 pb-16 relative">
+  <section class="py-4 pb-20 relative">
     <div class=" absolute -left-[28rem] bottom-[1rem] accent"><img src="<?=get_stylesheet_directory_uri();?>/img/dirt.png" alt="Dirt Splatter" /></div>
     <div class="max-w-7xl mx-auto px-12 text-center mt-12">
 
@@ -70,52 +70,93 @@ $blog_posts = array_filter($blog_posts);
         <?=$audienceSection['intro_text'];?>
       </div>
       
-      <div class="flex items-start gap-24 mt-16">
+      <div class="flex items-start gap-24 mt-16 mb-4">
         <?php if(!empty($audiences)) : ?>
           <?php foreach( $audiences as $audience) : ?>
-            <div class="flex-1 flex flex-col items-center">
-              <img src="<?=$audience['icon']['sizes']['icon']?>" alt="<?=$audience['icon']['alt'];?>" />
+            <div data-aos="fade-up" class="flex-1 flex flex-col items-center">
+              <img class="mb-5" src="<?=$audience['icon']['sizes']['icon']?>" alt="<?=$audience['icon']['alt'];?>" />
               <?=$audience['description'];?>
             </div>
           <?php endforeach; ?>
         <?php endif; ?>
       </div>
 
+      <?php 
+
+          $audienceCallToAction = $audienceSection['button'];
+          if($audienceCallToAction) : 
+
+            // button properties
+            $url = esc_url($audienceCallToAction['url']);
+            $label = esc_html($audienceCallToAction['title']);
+            $target = $audienceCallToAction['target'] ? esc_attr($audienceCallToAction['target']) : '_self';
+          
+            echo '<a href="'. $url .'" target="'. $target .'" class="btn">'. $label .'</a>';
+          endif;
+          
+        ?>
+
     </div>
   </section>
 
-  <!-- Blog Highlights -->
-  <section class="bg-gray-50 py-12">
-    <div class="max-w-7xl mx-auto px-6 text-center">
-      <div class="max-w-2xl mx-auto" data-aos="fade-up">
-        <?=$blogSection['intro_description']?>
-      </div>
-      <?php if (!empty($blog_posts)): ?>
-        <div class="flex items-start gap-12 mt-16" data-aos="fade-in">
-          <?php foreach ($blog_posts as $post): 
-            $title = get_the_title($post->ID);
-            $link = get_the_permalink($post->ID);
-            $image = get_field('image', $post->ID); ?>
-            
-            <a class="flex-1 flex flex-col items-center relative" href="<?=$link?>">
-              <?php if ($image): ?>
-                <img class="w-full rounded-md" src="<?= esc_url($image['sizes']['thumbnail-post']); ?>" alt="<?= esc_attr($image['alt']); ?>" />
-              <?php endif; ?>
-              <h3 class="bg-brand-silver absolute -bottom-10 mb-0 drop-shadow-sm rounded-md py-4 px-2 mx-8 my-0"><?= esc_html($title); ?></h3>
-              </a>
+ <!-- Blog Highlights -->
+<section class="bg-gray-50 py-22 pb-20 blog-features">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+    <div class="max-w-2xl mx-auto" data-aos="fade-up">
+      <?=$blogSection['intro_description']?>
+    </div>
 
-          <?php endforeach; ?>
+ <?php if (!empty($blog_posts)): ?>
+  <div class="flex gap-8 mt-16 mb-14" data-aos="fade-in">
+    <?php foreach ($blog_posts as $post): 
+      $title = get_the_title($post->ID);
+      $link = get_the_permalink($post->ID);
+      $image = get_field('image', $post->ID); ?>
+    
+      <a class="flex flex-col flex-1 rounded-md overflow-hidden group" href="<?=$link?>">
+        <!-- Image -->
+        <div class="blog-image-wrapper">
+          <img class="blog-image" src="<?= esc_url($image['sizes']['thumbnail-post']); ?>" alt="<?= esc_attr($image['alt']); ?>" />
+          <div class="blog-overlay"></div>
         </div>
-      <?php endif; ?>
-    </div>
-  </section>
+
+        <!-- Title (Equal height) -->
+        <div class="blog-title">
+          <h3 class="font-semibold"><?= esc_html($title); ?></h3>
+          <p class="mt-2 mb-0 text-sm">Read More &rarr;</p>
+        </div>
+
+      </a>
+
+    <?php endforeach; ?>
+  </div>
+<?php endif; ?>
+
+
+    <?php 
+
+      $blogButton = $blogSection['button'];
+      if($blogButton) : 
+
+        // button properties
+        $url = esc_url($blogButton['url']);
+        $label = esc_html($blogButton['title']);
+        $target = $blogButton['target'] ? esc_attr($blogButton['target']) : '_self';
+      
+        echo '<a href="'. $url .'" target="'. $target .'" class="btn">'. $label .'</a>';
+      endif;
+      
+    ?>
+  </div>
+</section>
+
 
   <!-- About Preview -->
-  <section class="py-12">
+  <section class="py-24">
     <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8 px-6">
 
       <?php if($aboutSection) : $aboutImg = $aboutSection['image'];?>
-        <div data-aos="fade-up">
+        <div data-aos="fade-up" class="pr-8">
           <?=$aboutSection['description'];?>
           <?php
               // about link

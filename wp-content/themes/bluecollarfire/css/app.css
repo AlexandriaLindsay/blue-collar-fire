@@ -99,17 +99,16 @@
 
     .btn {
         @apply 
-        bg-brand-secondary 
+        bg-transparent 
         rounded-sm 
         transition 
-        !text-white
+        !text-brand-secondary
         font-medium
         duration-300 
-        hover:bg-transparent 
-        hover:!text-brand-secondary
+        hover:bg-brand-secondary 
+        hover:!text-white
         border border-brand-secondary
-        py-3.5
-        px-4;
+        px-4 py-2;
     }
 }
 
@@ -124,4 +123,65 @@
 
 .hero .content p {
     @apply pr-20;
+}
+
+
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  text-decoration: none;
+  overflow: visible; /* Important */
+}
+
+.blog-image-wrapper {
+  position: relative;
+  width: 100%;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.blog-image {
+  width: 100%;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.blog-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.blog-card:hover .blog-image {
+  transform: scale(1.02);
+}
+
+.blog-card:hover .blog-overlay {
+  opacity: 1;
+}
+
+.blog-title {
+  background: #f4f4f4; /* or your .bg-brand-silver */
+  padding: 2rem 1rem 1rem;
+  border-radius: 0.5rem;
+  margin-top: -6rem; /* pulls it closer to image */
+  transition: transform 0.3s ease;
+  bottom: .5rem;
+  position: relative;
+  z-index: 10;
+  @apply mx-6 shadow-sm flex-1 flex flex-col justify-between text-center px-4 py-6 bg-brand-silver transition-transform duration-300 group-hover:-translate-y-1;
+}
+
+.blog-card:hover .blog-title {
+  transform: translateY(-1.5rem); /* move up on hover */
+}
+
+
+.blog-features a h3 span:last-of-type {
+    @apply mt-5 block font-semibold text-[1rem];
 }
