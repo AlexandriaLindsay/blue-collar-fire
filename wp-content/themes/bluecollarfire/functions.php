@@ -315,8 +315,8 @@ add_action('init', 'disable_gutenberg_for_posts');
  * Image Cropping Sizes
  */
 function image_cropping_sizes() {
-	add_image_size('hero', 391, 407, true);
-	add_image_size('icon', 65, 56, true);
+	add_image_size('hero', 1250, 1250, true);
+	add_image_size('icon', 90, 80, true);
 	add_image_size('thumbnail-post', 368, 286, true);
 	add_image_size('post', 875, 423, true);
 	add_image_size('home-about', 561, 396, true);

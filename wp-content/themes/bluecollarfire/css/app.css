@@ -52,6 +52,10 @@
         @apply text-xl text-brand-grey font-bold tracking-tight mb-2 leading-6;
     }
 
+    h4 {
+      @apply text-[1.5rem] mb-6;
+    }
+
     p,a {
         @apply text-[1.1rem];
     }
@@ -64,13 +68,18 @@
         @apply text-brand-primary relative font-bold;
     }
 
-    nav li:not(:last-child) > a::before {
+    nav li:not(:last-child) > a::before,
+    footer li a::before {
         content: '';
         @apply absolute bottom-4 left-0 w-full h-0.5 bg-brand-secondary rounded-full;
         transform: scaleX(0) translateY(1.3rem);
         transform-origin: left;
         transition: transform 0.3s ease;
         pointer-events: none;
+    }
+
+    footer li a {
+      @apply relative text-[#ededed];
     }
 
       nav li:last-of-type {
@@ -89,7 +98,8 @@
         px-4 py-2;
     }
 
-    nav li:not(:last-child) a:hover::before {
+    nav li:not(:last-child) a:hover::before,
+    footer li a:hover::before {
         transform: scaleX(1) translateY(1.3rem);
     }
 
@@ -184,4 +194,30 @@
 
 .blog-features a h3 span:last-of-type {
     @apply mt-5 block font-semibold text-[1rem];
+}
+
+.tnp-field-email label {
+  @apply !hidden;
+}
+
+.tnp-privacy-field {
+  @apply text-[#b1b1b1] text-[0.8rem];
+}
+
+.tnp-email {
+  @apply !bg-brand-grey !text-white;
+}
+
+.tnp-submit {
+  @apply 
+  !bg-transparent 
+  rounded-sm
+  transition
+  duration-300
+  !border-brand-secondary
+  !border
+  !text-brand-secondary
+  hover:cursor-pointer
+  hover:!bg-brand-secondary
+  hover:!text-white; 
 }
