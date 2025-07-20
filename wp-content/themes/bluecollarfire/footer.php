@@ -12,7 +12,7 @@
 ?>
 
 	 <!-- Footer -->
-	<footer class="bg-gray-800 text-white py-8">
+	<footer class="bg-brand-primary text-white py-8">
 		<div class="max-w-7xl mx-auto px-6 flex">
 		<div class="flex flex-1/3 flex-col">
 			<img class="!w-64" src="<?=get_stylesheet_directory_uri();?>/img/blue-collar-fire-logo-web.png" alt="Blue Collar Fire Logo">

@@ -61,7 +61,7 @@
     }
 
     p {
-        @apply mb-10;
+        @apply mb-6;
     }
 
     nav li:not(:last-child) a {
@@ -120,9 +120,16 @@
         border border-brand-secondary
         px-4 py-2;
     }
+
+    .sub-header nav ul li a {
+      @apply text-white;
+    }
 }
 
 
+/***********************************************
+* HOME PAGE
+***********************************************/
 .hero img {
     @apply ml-48 -mt-20;
 }
@@ -176,7 +183,6 @@
 }
 
 .blog-title {
-  background: #f4f4f4; /* or your .bg-brand-silver */
   padding: 2rem 1rem 1rem;
   border-radius: 0.5rem;
   margin-top: -6rem; /* pulls it closer to image */
@@ -184,7 +190,16 @@
   bottom: .5rem;
   position: relative;
   z-index: 10;
-  @apply mx-6 shadow-sm flex-1 flex flex-col justify-between text-center px-4 py-6 bg-brand-silver transition-transform duration-300 group-hover:-translate-y-1;
+  @apply 
+  bg-brand-silver 
+  mx-6 
+  w-[18rem]
+  shadow-sm flex-1 flex 
+  flex-col justify-between 
+  text-center px-4 py-6 
+  transition-transform 
+  duration-300 
+  group-hover:-translate-y-1;
 }
 
 .blog-card:hover .blog-title {
@@ -196,6 +211,11 @@
     @apply mt-5 block font-semibold text-[1rem];
 }
 
+
+
+/***********************************************
+* FOOTER
+***********************************************/
 .tnp-field-email label {
   @apply !hidden;
 }
@@ -213,6 +233,7 @@
   !bg-transparent 
   rounded-sm
   transition
+  !font-semibold
   duration-300
   !border-brand-secondary
   !border

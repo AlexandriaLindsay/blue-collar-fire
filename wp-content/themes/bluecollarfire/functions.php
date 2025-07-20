@@ -426,3 +426,133 @@ function custom_acf_wysiwyg_toolbars($toolbars) {
     return $toolbars;
 }
 add_filter('acf/fields/wysiwyg/toolbars', 'custom_acf_wysiwyg_toolbars');
+
+
+
+// 1. Category Filter Widget
+class Blog_Filter_Widget extends WP_Widget {
+  function __construct() {
+    parent::__construct(
+      'blog_filter_widget',
+      __('Blog Filter (AJAX)', 'textdomain'),
+      ['description' => __('AJAX blog post filter by category', 'textdomain')]
+    );
+  }
+
+  public function widget($args, $instance) {
+    echo $args['before_widget'];
+    ?>
+    <form id="blog-filter" class="p-4 bg-gray-100 rounded space-y-2">
+      <h3 class="text-lg font-bold mb-2">Filter by Category</h3>
+      <div>
+        <label>
+          <input type="radio" name="category" value="" checked> All Categories
+        </label>
+      </div>
+      <?php
+      $categories = get_categories();
+      foreach ($categories as $cat) {
+        echo '<div>
+                <label>
+                  <input type="radio" name="category" value="' . esc_attr($cat->term_id) . '"> ' . esc_html($cat->name) . '
+                </label>
+              </div>';
+      }
+      ?>
+    </form>
+    <?php
+    echo $args['after_widget'];
+  }
+}
+function register_blog_filter_widget() {
+  register_widget('Blog_Filter_Widget');
+}
+add_action('widgets_init', 'register_blog_filter_widget');
+
+
+// 2. Search Widget
+class Blog_Search_Widget extends WP_Widget {
+  function __construct() {
+    parent::__construct(
+      'blog_search_widget',
+      __('Blog Search (AJAX)', 'textdomain'),
+      ['description' => __('AJAX live blog post search form', 'textdomain')]
+    );
+  }
+
+  public function widget($args, $instance) {
+    echo $args['before_widget'];
+    ?>
+    <form id="blog-search" class="mb-6" role="search" method="get" action="">
+      <label for="search-input" class="sr-only">Search Posts</label>
+      <input
+        type="search"
+        id="search-input"
+        name="search"
+        placeholder="Search blog posts..."
+        class="w-full p-2 border rounded"
+        autocomplete="off"
+      />
+    </form>
+    <?php
+    echo $args['after_widget'];
+  }
+}
+function register_blog_search_widget() {
+  register_widget('Blog_Search_Widget');
+}
+add_action('widgets_init', 'register_blog_search_widget');
+
+
+// 3. Enqueue JS + localize ajax_url
+function enqueue_blog_filter_search_scripts() {
+    wp_enqueue_script(
+        'blog-filter-search',
+        get_template_directory_uri() . '/js/app.js',
+        ['jquery'],
+        null,
+        true
+    );
+
+    wp_localize_script('blog-filter-search', 'blogfilter', [
+        'ajax_url' => admin_url('admin-ajax.php'),
+    ]);
+}
+add_action('wp_enqueue_scripts', 'enqueue_blog_filter_search_scripts');
+
+
+// 4. AJAX handler for filtering posts
+function ajax_filter_blog_posts() {
+  $args = [
+    'post_type' => 'post',
+    'post_status' => 'publish',
+    'posts_per_page' => -1,
+  ];
+
+  if (!empty($_POST['category'])) {
+    $args['cat'] = intval($_POST['category']);
+  }
+
+  if (!empty($_POST['search'])) {
+    $args['s'] = sanitize_text_field($_POST['search']);
+  }
+
+  $query = new WP_Query($args);
+
+  if ($query->have_posts()) :
+    while ($query->have_posts()) : $query->the_post(); ?>
+      <article class="mb-8">
+        <h2 class="text-xl font-bold">
+          <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+        </h2>
+      </article>
+    <?php endwhile;
+    wp_reset_postdata();
+  else :
+    echo '<p>No posts found.</p>';
+  endif;
+
+  wp_die();
+}
+add_action('wp_ajax_filter_blog_posts', 'ajax_filter_blog_posts');
+add_action('wp_ajax_nopriv_filter_blog_posts', 'ajax_filter_blog_posts');
