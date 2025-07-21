@@ -541,10 +541,21 @@ function ajax_filter_blog_posts() {
 
   if ($query->have_posts()) :
     while ($query->have_posts()) : $query->the_post(); ?>
-      <article class="mb-8">
-        <h2 class="text-xl font-bold">
-          <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-        </h2>
+      <article class="flex gap-8 mt-16 mb-14" data-aos="fade-in">
+          <a href="<?php the_permalink(); ?>">
+              <?php $image = get_field('image');?>
+                <!-- Image -->
+              <div class="blog-image-wrapper">
+                  <img class="blog-image" src="<?= esc_url($image['sizes']['thumbnail-post']); ?>" alt="<?= esc_attr($image['alt']); ?>" />
+                  <div class="blog-overlay"></div>
+              </div>
+
+              <!-- Title (Equal height) -->
+              <div class="blog-title">
+                  <h3 class="font-semibold"><?= the_title(); ?></h3>
+                  <p class="mt-2 mb-0 text-sm">Read More &rarr;</p>
+              </div>
+          </a>
       </article>
     <?php endwhile;
     wp_reset_postdata();
