@@ -1,0 +1,38 @@
+20-07-2025 01:18:07 - INFO  - 8.9.2 - 4.6 MB/256 MB - blue.collar.admin > Start upgrade from 0.0.0
+20-07-2025 01:18:07 - INFO  - 8.9.2 - 4.5 MB/256 MB - blue.collar.admin > Array
+(
+    [`blue_collar_newsletter_emails`] => Created table `blue_collar_newsletter_emails`
+)
+
+20-07-2025 01:18:07 - INFO  - 8.9.2 - 4.5 MB/256 MB - blue.collar.admin > Array
+(
+    [`blue_collar_newsletter_sent`] => Created table `blue_collar_newsletter_sent`
+)
+
+20-07-2025 01:18:07 - INFO  - 8.9.2 - 4.6 MB/256 MB - blue.collar.admin > Array
+(
+    [`blue_collar_newsletter`] => Created table `blue_collar_newsletter`
+)
+
+20-07-2025 01:18:07 - INFO  - 8.9.2 - 4.5 MB/256 MB - blue.collar.admin > Array
+(
+    [`blue_collar_newsletter_user_logs`] => Created table `blue_collar_newsletter_user_logs`
+)
+
+20-07-2025 01:18:07 - INFO  - 8.9.2 - 4.5 MB/256 MB - blue.collar.admin > Array
+(
+    [`blue_collar_newsletter_user_meta`] => Created table `blue_collar_newsletter_user_meta`
+)
+
+20-07-2025 01:18:07 - INFO  - 8.9.2 - 4.5 MB/256 MB - blue.collar.admin > Array
+(
+    [`blue_collar_newsletter_stats`] => Created table `blue_collar_newsletter_stats`
+)
+
+20-07-2025 01:18:07 - INFO  - 8.9.2 - 4.5 MB/256 MB - blue.collar.admin > Array
+(
+    [`blue_collar_newsletter_logs`] => Created table `blue_collar_newsletter_logs`
+)
+
+20-07-2025 01:18:07 - INFO  - 8.9.2 - 4.6 MB/256 MB - blue.collar.admin > Backing up options of 0.0.0
+20-07-2025 01:18:07 - INFO  - 8.9.2 - 4.6 MB/256 MB - blue.collar.admin > End
