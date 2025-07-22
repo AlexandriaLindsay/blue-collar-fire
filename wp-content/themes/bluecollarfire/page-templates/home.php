@@ -56,14 +56,14 @@ $audiences = [
     <div class=" absolute -left-[28rem] bottom-[1rem] accent"><img src="<?=get_stylesheet_directory_uri();?>/img/dirt.png" alt="Dirt Splatter" /></div>
     <div class="max-w-7xl mx-auto px-12 text-center mt-12">
 
-      <div class="max-w-xl mx-auto" data-aos="fade-up">
+      <div class="max-w-xl mx-auto" data-aos="fade-up" data-aos-duration="1500">
         <?=$audienceSection['intro_text'];?>
       </div>
       
       <div class="flex items-start gap-24 mt-16 mb-4">
         <?php if(!empty($audiences)) : ?>
           <?php foreach( $audiences as $audience) : ?>
-            <div data-aos="fade-up" class="flex-1 flex flex-col items-center">
+            <div data-aos="fade-up" data-aos-duration="1500" class="flex-1 flex flex-col items-center">
               <img class="mb-5" src="<?=$audience['icon']['sizes']['icon']?>" alt="<?=$audience['icon']['alt'];?>" />
               <?=$audience['description'];?>
             </div>
@@ -94,11 +94,11 @@ $audiences = [
 
 
   <!-- About Preview -->
-  <section class="py-24">
+  <section class="py-24 about">
     <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8 px-6">
 
       <?php if($aboutSection) : $aboutImg = $aboutSection['image'];?>
-        <div data-aos="fade-up" class="pr-8">
+        <div data-aos="fade-up" data-aos-duration="1500" class="pr-8">
           <?=$aboutSection['description'];?>
           <?php
               // about link
@@ -113,7 +113,7 @@ $audiences = [
             endif;
           ?>
         </div>
-        <img data-aos="fade-in" src="<?=$aboutImg['sizes']['home-about'];?>" class="w-full md:w-1/2 rounded shadow" alt="<?=$aboutImg['alt']?>">
+        <img data-aos="fade-in" data-aos-duration="1500" src="<?=$aboutImg['sizes']['home-about'];?>" class="w-full md:w-1/2 rounded shadow" alt="<?=$aboutImg['alt']?>">
       <?php endif; ?>
     </div>
   </section>

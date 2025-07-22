@@ -8,33 +8,22 @@
  */
 
 get_header();
+
 ?>
+	<?php if(have_posts()) : while(have_posts()) : the_post(); $image = get_field('image'); ?>
+		<section class="max-w-5xl mx-auto px-6 py-10 pt-[.01rem] single-blog-post">
+			<div class="img-container relative">
+				<img class="w-full" src="<?=$image['sizes']['post'];?>" alt="<?=$image['alt'];?>">
+				<div>
+					<h1><?=the_title();?></h1>
+				</div>
+			</div>
 
-	<main id="primary" class="site-main">
+			<div class="px-[7rem] pt-12">
+				<?=get_field('content');?>
+			</div>
+		</section>
+	<?php endwhile; endif?>
 
-		<?php
-		while ( have_posts() ) :
-			the_post();
-
-			get_template_part( 'template-parts/content', get_post_type() );
-
-			the_post_navigation(
-				array(
-					'prev_text' => '<span class="nav-subtitle">' . esc_html__( 'Previous:', 'bluecollarfire' ) . '</span> <span class="nav-title">%title</span>',
-					'next_text' => '<span class="nav-subtitle">' . esc_html__( 'Next:', 'bluecollarfire' ) . '</span> <span class="nav-title">%title</span>',
-				)
-			);
-
-			// If comments are open or we have at least one comment, load up the comment template.
-			if ( comments_open() || get_comments_number() ) :
-				comments_template();
-			endif;
-
-		endwhile; // End of the loop.
-		?>
-
-	</main><!-- #main -->
-
-<?php
-get_sidebar();
-get_footer();
+	
+<?php get_footer(); ?>

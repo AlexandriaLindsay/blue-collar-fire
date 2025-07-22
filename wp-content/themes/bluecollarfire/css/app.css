@@ -32,7 +32,7 @@
 }
 
 .animate-flip-up {
-  animation: flipUp 0.6s ease-out forwards;
+  animation: flipUp .7s ease-out forwards;
 }
 
 /*******************************************
@@ -52,8 +52,8 @@
         @apply text-xl text-brand-grey font-bold tracking-tight mb-2 leading-6;
     }
 
-    h4 {
-      @apply text-[1.5rem] mb-6;
+    h4:not(footer h4) {
+      @apply text-lg text-brand-grey font-bold tracking-tight mb-2 leading-6;
     }
 
     p,a {
@@ -62,6 +62,22 @@
 
     p {
         @apply mb-6;
+    }
+
+    ul:not(footer ul):not(header ul) {
+      @apply
+      list-inside
+      list-disc mb-4;
+    }
+
+    a:not(.btn):not(nav a):not(footer a) {
+      @apply text-brand-primary transition duration-300 font-bold underline hover:text-brand-secondary;
+    }
+
+    ol {
+      @apply
+      list-inside
+      list-decimal mb-4;
     }
 
     nav li:not(:last-child) a {
@@ -142,6 +158,10 @@
     @apply pr-20;
 }
 
+.about p:last-of-type {
+  margin-bottom: 2.5rem;
+}
+
 
 .blog-card {
   display: flex;
@@ -193,7 +213,6 @@
   @apply 
   bg-brand-silver 
   mx-6 
-  w-[18rem]
   shadow-sm flex-1 flex 
   flex-col justify-between 
   text-center px-4 py-6 
@@ -212,10 +231,118 @@
 }
 
 
+/***********************************************
+* BLOG PAGE
+***********************************************/
+
+.blog-posts .blog-title h3 {
+  @apply text-[1rem] leading-[1rem] text-[#263238] leading-normal;
+}
+
+.blog-posts .blog-title h3 span {
+  @apply text-[1.5rem] absolute right-[1rem] bottom-0;
+}
+
+.blog-posts .blog-title {
+  @apply 
+  py-[.5rem] 
+  px-[1rem] 
+  pb-[1rem]
+  m-0
+  bottom-0
+  w-full
+  group-hover:transform-none
+  bg-transparent
+  rounded-none
+  text-left
+  absolute;
+}
+
+.custom-sidebar label {
+  @apply
+  transition
+  duration-300
+  hover:cursor-pointer
+  hover:text-brand-secondary;
+}
+
+#blog-filter input {
+  display: none;
+}
+
+.trans-bg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+#blog-filter h3 {
+  @apply
+  font-bold
+  text-[1.4rem]
+  border-b-1 border-[#ccc]
+  text-brand-primary
+  pb-[.6rem]
+  mb-[1.5rem];
+}
+
+#blog_search_widget-3 input {
+  @apply bg-[#EDE6F1] border-none rounded-[5rem] focus:outline-none pl-4;
+}
+
+.no-posts {
+  @apply
+  text-[2rem]
+  font-bold
+  bg-brand-silver
+  rounded-[3rem]
+  py-[1rem]
+  px-[3rem]
+  mx-auto
+  mt-8;
+
+}
+
+/***********************************************
+* SINGLE BLOG POST
+***********************************************/
+
+.single-blog-post .img-container div {
+  @apply
+  absolute
+  bg-brand-silver
+  text-center
+  absolute
+  bottom-0
+  left-6
+  opacity-90
+  rounded-md
+  right-6;
+}
+
+.single-blog-post .img-container h1 {
+  @apply
+  text-[2rem]
+  mb-0;
+}
+
+.single-blog-post h2, 
+.single-blog-post h3, 
+.single-blog-post h4 {
+  @apply mb-6 font-bold;
+}
 
 /***********************************************
 * FOOTER
 ***********************************************/
+footer h4 {
+  @apply text-xl mb-3;
+}
 .tnp-field-email label {
   @apply !hidden;
 }
@@ -225,7 +352,11 @@
 }
 
 .tnp-email {
-  @apply !bg-brand-grey !text-white;
+  @apply !bg-brand-grey !text-white focus:outline-none;
+}
+
+.tnp-email::placeholder {
+  color: #fff;
 }
 
 .tnp-submit {

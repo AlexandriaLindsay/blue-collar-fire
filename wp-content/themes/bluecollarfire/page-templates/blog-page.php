@@ -15,15 +15,15 @@ $all_posts = new WP_Query([
 
 <section class="max-w-7xl mx-auto px-6 py-10">
     <div class="flex">
-        <div class="flex-1/5">
+        <div class="flex-[25%] pr-[3rem] custom-sidebar">
             <?php get_sidebar(); ?>
         </div>
-        <div class="flex-10/12">
-            <div id="filtered-posts" class="flex flex-wrap gap-4">
+        <div class="flex-[75%]">
+            <div id="filtered-posts" class="relative blog-posts flex flex-wrap gap-4">
                 <?php
                 if ($all_posts->have_posts()) :
                     while ($all_posts->have_posts()) : $all_posts->the_post(); ?>
-                        <article class="flex flex-col w-[32%]" data-aos="fade-in">
+                        <article class="flex w-[32%] flex-col group blog-card" data-aos="fade-in">
                             <a href="<?php the_permalink(); ?>">
                                 <?php $image = get_field('image');?>
                                  <!-- Image -->
@@ -34,15 +34,15 @@ $all_posts = new WP_Query([
 
                                 <!-- Title (Equal height) -->
                                 <div class="blog-title">
-                                    <h3 class="font-semibold"><?=the_title();?></h3>
-                                    <p class="mt-2 mb-0 text-sm">Read More &rarr;</p>
+                                    <div class="bg-white opacity-80 trans-bg"></div>
+                                    <h3 class="font-semibold"><?=the_title();?> <span>&rarr;</span></h3>
                                 </div>
                             </a>
                         </article>
                     <?php endwhile;
                     wp_reset_postdata();
                 else :
-                    echo '<p>No posts found.</p>';
+                    echo '<p class="no-posts">No posts found.</p>';
                 endif;
                 ?>
             </div>

@@ -40,6 +40,11 @@
 		</div>
 	</footer>
 </div><!-- #page -->
+
+<button id="backToTop" class="hover:cursor-pointer fixed bottom-6 right-6 z-50 hidden py-[.6rem] px-[.9rem] rounded-md bg-brand-primary text-white shadow-lg hover:bg-brand-secondary transition duration-300">
+  <i class="fas fa-chevron-up"></i>
+</button>
+
 <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 <?php wp_footer(); ?>
 

@@ -1,5 +1,9 @@
 AOS.init();
 
+
+/**
+ * Blog Filtering AJAX
+ */
 jQuery(document).ready(function($) {
   const filteredPosts = $('#filtered-posts');
   const categoryForm = $('#blog-filter');
@@ -19,7 +23,15 @@ jQuery(document).ready(function($) {
         search: searchTerm,
       },
       beforeSend: function() {
-        filteredPosts.html('<p>Loading...</p>');
+        filteredPosts.html(`
+          <div class="spinner absolute top-[8rem] left-[50%]">
+            <svg class=" w-[2.5rem] h-[2.5rem] animate-spin h-8 w-8 text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+            </svg>
+          </div>
+        `);
+
       },
       success: function(response) {
         filteredPosts.html(response);
@@ -41,5 +53,25 @@ jQuery(document).ready(function($) {
     clearTimeout(timeout);
     timeout = setTimeout(fetchFilteredPosts, 300);
   });
+
+
+
+  /**
+   * Return to top
+   */
+    const $backToTop = $('#backToTop');
+
+    $(window).scroll(function () {
+      if ($(this).scrollTop() > 300) {
+        $backToTop.removeClass('hidden');
+      } else {
+        $backToTop.addClass('hidden');
+      }
+    });
+  
+    $backToTop.on('click', function () {
+      $('html, body').animate({ scrollTop: 0 }, 600); // 600ms smooth scroll
+    });
+
 });
 

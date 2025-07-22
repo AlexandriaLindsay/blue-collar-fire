@@ -364,6 +364,10 @@ function duplicate_post_link($actions, $post) {
 add_filter('post_row_actions', 'duplicate_post_link', 10, 2);
 add_filter('page_row_actions', 'duplicate_post_link', 10, 2);
 
+
+/**
+ * Post duplicator
+ */
 function duplicate_post_as_draft() {
     if (
         !isset($_GET['post']) ||
@@ -429,7 +433,9 @@ add_filter('acf/fields/wysiwyg/toolbars', 'custom_acf_wysiwyg_toolbars');
 
 
 
-// 1. Category Filter Widget
+/**
+ * Category Filter Widget
+ */
 class Blog_Filter_Widget extends WP_Widget {
   function __construct() {
     parent::__construct(
@@ -442,27 +448,54 @@ class Blog_Filter_Widget extends WP_Widget {
   public function widget($args, $instance) {
     echo $args['before_widget'];
     ?>
-    <form id="blog-filter" class="p-4 bg-gray-100 rounded space-y-2">
-      <h3 class="text-lg font-bold mb-2">Filter by Category</h3>
+    <form id="blog-filter" class="p-4 space-y-2">
+      <h3 class="text-lg font-bold mb-2">Categories</h3>
       <div>
         <label>
           <input type="radio" name="category" value="" checked> All Categories
         </label>
       </div>
       <?php
-      $categories = get_categories();
-      foreach ($categories as $cat) {
-        echo '<div>
-                <label>
-                  <input type="radio" name="category" value="' . esc_attr($cat->term_id) . '"> ' . esc_html($cat->name) . '
+      $parent_cats = get_categories([
+        'parent'     => 0,
+        'hide_empty' => false,
+        'orderby'    => 'name',
+        'order'      => 'ASC',
+      ]);
+  
+      foreach ($parent_cats as $parent) {
+        if ($parent->slug === 'uncategorized') continue; // Skip "Uncategorized"
+      
+        echo '<div class="mt-5">
+                <label class="font-semibold text-[#49788F] text-[1.1rem]">
+                  <input type="radio" name="category" value="' . esc_attr($parent->term_id) . '"> ' . esc_html($parent->name) . '
                 </label>
               </div>';
+      
+        $children = get_categories([
+          'parent'     => $parent->term_id,
+          'hide_empty' => false,
+          'orderby'    => 'name',
+          'order'      => 'ASC',
+        ]);
+      
+        foreach ($children as $child) {
+          if ($child->slug === 'uncategorized') continue;
+      
+          echo '<div class="ml-4">
+                  <label>
+                    <input type="radio" name="category" value="' . esc_attr($child->term_id) . '"> ' . esc_html($child->name) . '
+                  </label>
+                </div>';
+        }
       }
+      
       ?>
     </form>
     <?php
     echo $args['after_widget'];
   }
+  
 }
 function register_blog_filter_widget() {
   register_widget('Blog_Filter_Widget');
@@ -470,7 +503,10 @@ function register_blog_filter_widget() {
 add_action('widgets_init', 'register_blog_filter_widget');
 
 
-// 2. Search Widget
+
+/**
+ * Search Widget
+ */
 class Blog_Search_Widget extends WP_Widget {
   function __construct() {
     parent::__construct(
@@ -483,16 +519,17 @@ class Blog_Search_Widget extends WP_Widget {
   public function widget($args, $instance) {
     echo $args['before_widget'];
     ?>
-    <form id="blog-search" class="mb-6" role="search" method="get" action="">
+    <form id="blog-search" class="mb-6 relative" role="search" method="get" action="">
       <label for="search-input" class="sr-only">Search Posts</label>
       <input
         type="search"
         id="search-input"
         name="search"
-        placeholder="Search blog posts..."
+        placeholder="Search articles..."
         class="w-full p-2 border rounded"
         autocomplete="off"
       />
+      <i class="fas fa-search absolute text-[#5c5c5c] right-[1.5rem] bottom-[.8rem]"></i>
     </form>
     <?php
     echo $args['after_widget'];
@@ -504,7 +541,9 @@ function register_blog_search_widget() {
 add_action('widgets_init', 'register_blog_search_widget');
 
 
-// 3. Enqueue JS + localize ajax_url
+/**
+ * Enqueue JS + Locaclize ajax_url
+ */
 function enqueue_blog_filter_search_scripts() {
     wp_enqueue_script(
         'blog-filter-search',
@@ -521,7 +560,10 @@ function enqueue_blog_filter_search_scripts() {
 add_action('wp_enqueue_scripts', 'enqueue_blog_filter_search_scripts');
 
 
-// 4. AJAX handler for filtering posts
+
+/**
+ * AJAX handler for filtering posts
+ */
 function ajax_filter_blog_posts() {
   $args = [
     'post_type' => 'post',
@@ -541,7 +583,7 @@ function ajax_filter_blog_posts() {
 
   if ($query->have_posts()) :
     while ($query->have_posts()) : $query->the_post(); ?>
-      <article class="flex gap-8 mt-16 mb-14" data-aos="fade-in">
+      <article class="flex w-[32%] flex-col group blog-card" data-aos="fade-in">
           <a href="<?php the_permalink(); ?>">
               <?php $image = get_field('image');?>
                 <!-- Image -->
@@ -552,15 +594,15 @@ function ajax_filter_blog_posts() {
 
               <!-- Title (Equal height) -->
               <div class="blog-title">
-                  <h3 class="font-semibold"><?= the_title(); ?></h3>
-                  <p class="mt-2 mb-0 text-sm">Read More &rarr;</p>
+                  <div class="bg-white opacity-80 trans-bg"></div>
+                  <h3 class="font-semibold"><?=the_title();?> <span>&rarr;</span></h3>
               </div>
           </a>
       </article>
     <?php endwhile;
     wp_reset_postdata();
   else :
-    echo '<p>No posts found.</p>';
+    echo '<p class="no-posts">No posts found.</p>';
   endif;
 
   wp_die();
