@@ -15,7 +15,7 @@ $about = get_field('about');
     <img class="mx-auto" src="<?=$about['image']['sizes']['post'];?>" alt="<?=$about['image']['alt'];?>">
   </div>
 
-  <div class="px-[7rem] pt-12">
+  <div class="px-0 md:px-[7rem] pt-12">
     <?=$about['description'];?>
   </div>
 </section>

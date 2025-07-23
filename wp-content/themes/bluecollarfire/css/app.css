@@ -45,7 +45,7 @@
     }
 
     h2 {
-        @apply text-4xl text-brand-grey font-bold tracking-tighter mb-2;
+        @apply text-3xl md:text-4xl text-brand-grey font-bold tracking-tighter mb-2;
     }
 
     h3 {
@@ -94,6 +94,10 @@
         pointer-events: none;
     }
 
+    footer li {
+      @apply leading-5 md:leading-8;
+    }
+
     footer li a {
       @apply relative text-[#ededed];
     }
@@ -113,6 +117,7 @@
         rounded-sm
         px-4 py-2;
     }
+      
 
     nav li:not(:last-child) a:hover::before,
     footer li a:hover::before {
@@ -140,7 +145,36 @@
     .sub-header nav ul li a {
       @apply text-white;
     }
+
+    nav {
+      @apply transition duration-300;
+    }
 }
+
+  nav.active {
+    @apply bg-brand-secondary;
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+      z-index: 1;
+    
+  }
+
+  nav.active li a {
+    @apply text-white text-3xl leading-4 hover:text-brand-primary transition duration-300;
+    
+  }
+
+  nav.active ul {
+    @apply items-baseline py-20 px-12 leading-8;
+    
+  }
+
+  #nav-toggle.active {
+    @apply text-white z-20;
+  }
 
 
 /***********************************************
@@ -320,6 +354,7 @@
   absolute
   bottom-0
   left-6
+  p-4
   opacity-90
   rounded-md
   right-6;
@@ -327,7 +362,9 @@
 
 .single-blog-post .img-container h1 {
   @apply
-  text-[2rem]
+  text-[1.6rem]
+  md:text-[2rem]
+  leading-8
   mb-0;
 }
 
@@ -372,4 +409,14 @@ footer h4 {
   hover:cursor-pointer
   hover:!bg-brand-secondary
   hover:!text-white; 
+}
+
+
+/***********************************************
+* MEDIA QUERIES
+***********************************************/
+@media screen and (min-width:1200px) {
+  .blog-posts article {
+    width: 32%;
+  }
 }

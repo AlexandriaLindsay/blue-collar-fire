@@ -14,17 +14,17 @@ $all_posts = new WP_Query([
 <?php get_template_part('template-parts/header', 'subpage'); ?>
 
 <section class="max-w-7xl mx-auto px-6 py-10">
-    <div class="flex">
-        <div class="flex-[25%] pr-[3rem] custom-sidebar">
+    <div class="flex flex-col md:flex-row">
+        <div class="flex-[25%] pr-[3rem] mb-4 md:mb-0 custom-sidebar">
             <?php get_sidebar(); ?>
         </div>
         <div class="flex-[75%]">
-            <div id="filtered-posts" class="relative blog-posts flex flex-wrap gap-4">
+            <div id="filtered-posts" class="blog-posts flex flex-wrap gap-4">
                 <?php
                 if ($all_posts->have_posts()) :
                     while ($all_posts->have_posts()) : $all_posts->the_post(); ?>
-                        <article class="flex w-[32%] flex-col group blog-card" data-aos="fade-in">
-                            <a href="<?php the_permalink(); ?>">
+                        <article class="mb-[1.5rem] flex md:flex-row w-[100%] md:w-[48%] lg:w-[31%] flex-col group blog-card" data-aos="fade-in">
+                            <a class="relative" href="<?php the_permalink(); ?>">
                                 <?php $image = get_field('image');?>
                                  <!-- Image -->
                                 <div class="blog-image-wrapper">

@@ -1,10 +1,11 @@
-AOS.init();
 
 
 /**
  * Blog Filtering AJAX
  */
 jQuery(document).ready(function($) {
+  AOS.init();
+
   const filteredPosts = $('#filtered-posts');
   const categoryForm = $('#blog-filter');
   const searchInput = $('#search-input');
@@ -77,9 +78,10 @@ jQuery(document).ready(function($) {
     /**
      * Hamburger Nav
      */
-     $('#nav-toggle').on('click', function() {
-      $('#primary-menu').toggleClass('hidden');
+    $('#nav-toggle').on('click', function() {
+      $('#primary-menu').toggleClass('translate-x-full active');
+      $('#nav-toggle i').toggleClass('fa-bars fa-times');
+      $('#nav-toggle').toggleClass('active');
     });
-
 });
 

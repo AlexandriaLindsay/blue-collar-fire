@@ -9,7 +9,7 @@
 
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
-	define( '_S_VERSION', '1.0.0' );
+	define( '_S_VERSION', '1.0.1' );
 }
 
 /**
@@ -138,9 +138,13 @@ add_action( 'widgets_init', 'bluecollarfire_widgets_init' );
  * Enqueue scripts and styles.
  */
 function bluecollarfire_scripts() {
-	wp_enqueue_style( 'bluecollarfire-style', get_template_directory_uri() . '/dist/css/app.min.css', array(), _S_VERSION );
+	wp_enqueue_style( 'bluecollarfire-style', get_template_directory_uri() . '/dist/css/app.min.css', array() );
 
-	wp_enqueue_script( 'bluecollarfire-js', get_template_directory_uri() . '/dist/js/app.min.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'bluecollarfire-js', get_template_directory_uri() . '/dist/js/app.min.js', array('jquery'), true );
+
+  wp_localize_script('bluecollarfire-js', 'blogfilter', [
+        'ajax_url' => admin_url('admin-ajax.php'),
+    ]);
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
@@ -529,7 +533,7 @@ class Blog_Search_Widget extends WP_Widget {
         class="w-full p-2 border rounded"
         autocomplete="off"
       />
-      <i class="fas fa-search absolute text-[#5c5c5c] right-[1.5rem] bottom-[.8rem]"></i>
+      <i class="block md:!hidden lg:block fas fa-search absolute text-[#5c5c5c] right-[1.5rem] bottom-[.8rem]"></i>
     </form>
     <?php
     echo $args['after_widget'];
@@ -539,25 +543,6 @@ function register_blog_search_widget() {
   register_widget('Blog_Search_Widget');
 }
 add_action('widgets_init', 'register_blog_search_widget');
-
-
-/**
- * Enqueue JS + Locaclize ajax_url
- */
-function enqueue_blog_filter_search_scripts() {
-    wp_enqueue_script(
-        'blog-filter-search',
-        get_template_directory_uri() . '/js/app.js',
-        ['jquery'],
-        null,
-        true
-    );
-
-    wp_localize_script('blog-filter-search', 'blogfilter', [
-        'ajax_url' => admin_url('admin-ajax.php'),
-    ]);
-}
-add_action('wp_enqueue_scripts', 'enqueue_blog_filter_search_scripts');
 
 
 
@@ -583,8 +568,8 @@ function ajax_filter_blog_posts() {
 
   if ($query->have_posts()) :
     while ($query->have_posts()) : $query->the_post(); ?>
-      <article class="flex w-[32%] flex-col group blog-card" data-aos="fade-in">
-          <a href="<?php the_permalink(); ?>">
+      <article class="mb-[1.5rem] flex md:flex-row w-[100%] md:w-[48%] lg:w-[31%] flex-col group blog-card" data-aos="fade-in">
+          <a class="relative" href="<?php the_permalink(); ?>">
               <?php $image = get_field('image');?>
                 <!-- Image -->
               <div class="blog-image-wrapper">

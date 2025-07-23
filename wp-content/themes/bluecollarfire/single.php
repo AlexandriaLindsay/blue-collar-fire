@@ -11,7 +11,7 @@ get_header();
 
 ?>
 	<?php if(have_posts()) : while(have_posts()) : the_post(); $image = get_field('image'); ?>
-		<section class="max-w-5xl mx-auto px-6 py-10 pt-[.01rem] single-blog-post">
+		<section class="max-w-5xl mx-auto px-6 py-10 pt-0 single-blog-post">
 			<div class="img-container relative">
 				<img class="w-full" src="<?=$image['sizes']['post'];?>" alt="<?=$image['alt'];?>">
 				<div>
@@ -19,7 +19,7 @@ get_header();
 				</div>
 			</div>
 
-			<div class="px-[7rem] pt-12">
+			<div class="px-0 md:px-[7rem] pt-12">
 				<?=get_field('content');?>
 			</div>
 		</section>

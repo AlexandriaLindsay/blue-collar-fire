@@ -25,7 +25,7 @@
       </div>
 
       <?php if (!empty($blog_posts)): ?>
-        <div class="flex gap-8 mt-16 mb-14" data-aos="fade-in" data-aos-duration="1500">
+        <div class="flex flex-col md:flex-row gap-8 mt-16 mb-14" data-aos="fade-in" data-aos-duration="1500">
           <?php foreach ($blog_posts as $post): 
             $title = get_the_title($post->ID);
             $link = get_the_permalink($post->ID);

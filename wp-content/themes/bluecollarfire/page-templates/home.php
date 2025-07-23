@@ -43,7 +43,7 @@ $audiences = [
       
       </div>
 
-      <div class="opacity-0 flex flex-3 sm:w-full justify-center items-center animate-flip-up" style="animation-delay: .3s;">
+      <div class="z-[-1] opacity-0 flex flex-3 sm:w-full justify-center items-center animate-flip-up" style="animation-delay: .3s;">
         <?php if($hero) : ?>
           <img src="<?=$hero['hero_image']['sizes']['hero'];?>" alt="<?=$hero['hero_image']['alt'];?>" />
         <?php endif; ?>
@@ -53,14 +53,14 @@ $audiences = [
 
   <!-- Audiences -->
   <section class="py-4 pb-20 relative">
-    <div class=" absolute -left-[28rem] bottom-[1rem] accent"><img src="<?=get_stylesheet_directory_uri();?>/img/dirt.png" alt="Dirt Splatter" /></div>
+    <div class="hidden lg:block absolute -left-[28rem] bottom-[1rem] accent"><img src="<?=get_stylesheet_directory_uri();?>/img/dirt.png" alt="Dirt Splatter" /></div>
     <div class="max-w-7xl mx-auto px-12 text-center mt-12">
 
       <div class="max-w-xl mx-auto" data-aos="fade-up" data-aos-duration="1500">
         <?=$audienceSection['intro_text'];?>
       </div>
       
-      <div class="flex items-start gap-24 mt-16 mb-4">
+      <div class="flex flex-col md:flex-row items-center gap-12 md:gap-24 mt-16 mb-4">
         <?php if(!empty($audiences)) : ?>
           <?php foreach( $audiences as $audience) : ?>
             <div data-aos="fade-up" data-aos-duration="1500" class="flex-1 flex flex-col items-center">

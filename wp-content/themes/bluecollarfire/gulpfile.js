@@ -1,23 +1,23 @@
 const gulp = require('gulp');
-const uglify = require('gulp-uglify'); // or use terser if installed
 const terser = require('gulp-terser');
 const concat = require('gulp-concat');
 const sourcemaps = require('gulp-sourcemaps');
-const watch = require('gulp-watch');
 
-const jsFiles = 'js/**/*.js'; // Adjust path if your JS files are elsewhere
+// Only include YOUR scripts (not vendor)
+const jsSrc = [
+  'js/app.js',
+  // add more files if needed, in the order you want
+];
 
 function jsTask() {
-  return gulp.src(jsFiles)
-    .pipe(sourcemaps.init())
-    .pipe(concat('app.min.js'))  // Change filename as you want
-    .pipe(terser())              // or .pipe(uglify())
-    .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('dist/js'));  // Destination folder inside your theme
+  return gulp.src(jsSrc)
+    .pipe(concat('app.min.js'))     // Output filename
+    .pipe(terser())                 // Minify
+    .pipe(gulp.dest('dist/js'));    // Output location
 }
 
 function watchTask() {
-  gulp.watch(jsFiles, jsTask);
+  gulp.watch('js/**/*.js', jsTask); // Rebuild if anything in js/ changes
 }
 
 exports.default = gulp.series(jsTask, watchTask);
