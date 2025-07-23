@@ -41,7 +41,7 @@
 @layer base {
 
     h1 {
-        @apply text-[5rem] font-bold text-brand-primary tracking-tighter leading-[4.8rem] mb-11;
+        @apply text-[3rem] md:text-[5rem] font-bold text-brand-primary tracking-tighter leading-[3rem] md:leading-[4.8rem] mb-11;
     }
 
     h2 {
@@ -151,11 +151,11 @@
 }
 
 .hero .content {
-    @apply w-[39rem];
+    @apply md:w-[39rem];
 }
 
 .hero .content p {
-    @apply pr-20;
+    @apply md:pr-20;
 }
 
 .about p:last-of-type {

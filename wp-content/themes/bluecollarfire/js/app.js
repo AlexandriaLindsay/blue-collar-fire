@@ -73,5 +73,13 @@ jQuery(document).ready(function($) {
       $('html, body').animate({ scrollTop: 0 }, 600); // 600ms smooth scroll
     });
 
+
+    /**
+     * Hamburger Nav
+     */
+     $('#nav-toggle').on('click', function() {
+      $('#primary-menu').toggleClass('hidden');
+    });
+
 });
 

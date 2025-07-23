@@ -20,9 +20,9 @@ $audiences = [
 
  <!-- Hero Section -->
   <section class="hero py-12">
-    <div class="flex max-w-7xl mx-auto items-center">
+    <div class="flex flex-col md:flex-row max-w-7xl mx-auto items-center">
       <div class="opacity-0 flex-1 px-6 animate-flip-up">
-        <div class="absolute -top-[18.5rem] content">
+        <div class="md:absolute -top-[18.5rem] content">
           <?php 
             if($hero) :
               echo $hero['hero_text'];
@@ -43,7 +43,7 @@ $audiences = [
       
       </div>
 
-      <div class="opacity-0 flex flex-3 justify-center items-center animate-flip-up" style="animation-delay: .3s;">
+      <div class="opacity-0 flex flex-3 sm:w-full justify-center items-center animate-flip-up" style="animation-delay: .3s;">
         <?php if($hero) : ?>
           <img src="<?=$hero['hero_image']['sizes']['hero'];?>" alt="<?=$hero['hero_image']['alt'];?>" />
         <?php endif; ?>
